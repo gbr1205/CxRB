@@ -4,8 +4,7 @@ import { Sidebar } from './components/layout/Sidebar';
 import { TopBar } from './components/layout/TopBar';
 import { TopGainers } from './components/dashboard/TopGainers';
 import { AssetTable } from './components/dashboard/AssetTable';
-import { Exchange } from './components/dashboard/Exchange';
-import { Cryptic } from './components/dashboard/Cryptic';
+import { AIAnalyzer } from './components/dashboard/AIAnalyzer';
 import { getTopCoins, transformCoinData } from './services/api';
 
 const queryClient = new QueryClient();
@@ -17,7 +16,7 @@ function Dashboard() {
       const coins = await getTopCoins();
       return coins.map(transformCoinData);
     },
-    refetchInterval: 30000, // Refetch every 30 seconds
+    refetchInterval: 30000,
   });
 
   if (isLoading) {
@@ -30,10 +29,7 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white">
-      <Sidebar position="left">
-        {/* Left sidebar content */}
-      </Sidebar>
-
+      <Sidebar position="left" />
       <div className="ml-64">
         <TopBar />
         <main className="p-6">
@@ -49,10 +45,7 @@ function Dashboard() {
               </div>
             </div>
             <div className="col-span-1">
-              <div className="grid grid-rows-[420px_1fr] gap-4">
-                <Cryptic />
-                <Exchange />
-              </div>
+              <AIAnalyzer assets={assets} />
             </div>
           </div>
         </main>
