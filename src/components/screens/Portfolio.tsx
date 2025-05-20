@@ -8,12 +8,12 @@ interface PortfolioProps {
 
 export function Portfolio({ assets }: PortfolioProps) {
   return (
-    <div className="p-6 space-y-6">
-      <div className="h-[380px]">
+    <div className="p-6">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold mb-2">Your Assets</h1>
+        <p className="text-gray-400">Track and manage your cryptocurrency portfolio</p>
       </div>
-      <div className="flex-1">
-        <AssetTable assets={assets} />
-      </div>
+      <AssetTable assets={assets} />
     </div>
   );
 }

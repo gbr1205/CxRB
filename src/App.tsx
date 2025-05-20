@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-quer
 import { motion, AnimatePresence } from 'framer-motion';
 import { Portfolio } from './components/screens/Portfolio';
 import { AIAnalysis } from './components/screens/AIAnalysis';
-import { getTopCoins, transformCoinData } from './services/api';
+import { getMarketData } from './services/api';
 import { BottomNav } from './components/layout/BottomNav';
 
 const queryClient = new QueryClient();
@@ -12,12 +12,9 @@ function AppContent() {
   const [activeScreen, setActiveScreen] = React.useState('portfolio');
   
   const { data: assets = [], isLoading } = useQuery({
-    queryKey: ['topCoins'],
-    queryFn: async () => {
-      const coins = await getTopCoins();
-      return coins.map(transformCoinData);
-    },
-    refetchInterval: 30000,
+    queryKey: ['marketData'],
+    queryFn: getMarketData,
+    refetchInterval: 30000, // Refresh every 30 seconds
   });
 
   if (isLoading) {
