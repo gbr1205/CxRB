@@ -36,6 +36,8 @@ interface FearGreedData {
 }
 
 const calculateSentimentScore = (newsData: NewsData[], fearGreedIndex: number) => {
+  if (!newsData.length) return 50; // Default neutral score if no news data
+  
   // Weight the sentiment based on news votes and fear/greed index
   const newsScore = newsData.reduce((acc, item) => {
     const positiveScore = item.votes.positive * 2;
@@ -48,13 +50,39 @@ const calculateSentimentScore = (newsData: NewsData[], fearGreedIndex: number) =
   const normalizedNewsScore = ((newsScore + 10) / 20) * 100;
   
   // Combine with fear/greed index (50/50 weight)
-  return (normalizedNewsScore + fearGreedIndex) / 2;
+  return (normalizedNewsScore + (fearGreedIndex || 50)) / 2;
+};
+
+const axiosWithRetry = async (config: any, retries = 3, delay = 1000) => {
+  try {
+    return await axios(config);
+  } catch (error: any) {
+    if (retries === 0) throw error;
+    
+    if (error.response) {
+      // Handle rate limiting
+      if (error.response.status === 429) {
+        await new Promise(resolve => setTimeout(resolve, delay));
+        return axiosWithRetry(config, retries - 1, delay * 2);
+      }
+      
+      throw new Error(`API request failed: ${error.response.status} - ${error.response.data?.message || error.message}`);
+    }
+    
+    if (error.request) {
+      throw new Error(`Network error: Unable to reach ${config.url}. Please check your connection.`);
+    }
+    
+    throw error;
+  }
 };
 
 export const getMarketData = async (): Promise<Asset[]> => {
   try {
     // Fetch market data from CoinGecko
-    const marketResponse = await axios.get(`${COINGECKO_API}/coins/markets`, {
+    const marketResponse = await axiosWithRetry({
+      method: 'get',
+      url: `${COINGECKO_API}/coins/markets`,
       params: {
         vs_currency: 'usd',
         order: 'market_cap_desc',
@@ -62,27 +90,47 @@ export const getMarketData = async (): Promise<Asset[]> => {
         sparkline: false,
         price_change_percentage: '24h,7d',
         x_cg_demo_api_key: COINGECKO_API_KEY
-      }
+      },
+      timeout: 10000 // 10 second timeout
     });
 
-    // Fetch news data from CryptoPanic
-    const newsResponse = await axios.get(`${CRYPTOPANIC_API}/posts`, {
-      params: {
-        auth_token: CRYPTOPANIC_API_KEY,
-        filter: 'important'
-      }
-    });
+    let newsData: NewsData[] = [];
+    let fearGreedIndex = 50; // Default neutral value
 
-    // Fetch fear/greed index from CoinMarketCap
-    const fearGreedResponse = await axios.get(`${CMC_API}/fear-and-greed/latest`, {
-      headers: {
-        'X-CMC_PRO_API_KEY': CMC_API_KEY
-      }
-    });
+    try {
+      // Fetch news data from CryptoPanic
+      const newsResponse = await axiosWithRetry({
+        method: 'get',
+        url: `${CRYPTOPANIC_API}/posts`,
+        params: {
+          auth_token: CRYPTOPANIC_API_KEY,
+          filter: 'important'
+        },
+        timeout: 10000
+      });
+      newsData = newsResponse.data.results;
+    } catch (error) {
+      console.warn('Failed to fetch news data:', error);
+      // Continue with empty news data
+    }
+
+    try {
+      // Fetch fear/greed index from CoinMarketCap
+      const fearGreedResponse = await axiosWithRetry({
+        method: 'get',
+        url: `${CMC_API}/fear-and-greed/latest`,
+        headers: {
+          'X-CMC_PRO_API_KEY': CMC_API_KEY
+        },
+        timeout: 10000
+      });
+      fearGreedIndex = fearGreedResponse.data.data.value;
+    } catch (error) {
+      console.warn('Failed to fetch fear/greed index:', error);
+      // Continue with default fear/greed index
+    }
 
     const marketData: MarketData[] = marketResponse.data;
-    const newsData: NewsData[] = newsResponse.data.results;
-    const fearGreedIndex: number = fearGreedResponse.data.data.value;
 
     return marketData.map(coin => {
       const coinNews = newsData.filter(news => 
@@ -109,8 +157,8 @@ export const getMarketData = async (): Promise<Asset[]> => {
         volume: coin.total_volume
       };
     });
-  } catch (error) {
-    console.error('Error fetching market data:', error);
-    return [];
+  } catch (error: any) {
+    console.error('Error fetching market data:', error.message);
+    throw new Error(`Failed to fetch market data: ${error.message}`);
   }
 };
