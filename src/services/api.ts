@@ -4,7 +4,7 @@ import type { Asset } from '../types';
 const COINGECKO_API = 'https://api.coingecko.com/api/v3';
 const COINGECKO_API_KEY = 'CG-x9D5twKxerKevp8MCpsHUgV4';
 
-export interface CoinData {
+interface CoinData {
   id: string;
   symbol: string;
   name: string;
