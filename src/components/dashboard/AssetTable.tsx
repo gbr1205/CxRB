@@ -14,7 +14,6 @@ export function AssetTable({ assets }: AssetTableProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <h2 className="text-lg font-semibold">Your Assets</h2>
-            <span className="px-2 py-0.5 bg-[#1a1a1a] rounded-full text-xs">65 Assets</span>
           </div>
           <div className="flex items-center gap-3">
             <button className="p-1 hover:bg-[#ffffff0a] rounded-lg">
@@ -94,26 +93,25 @@ export function AssetTable({ assets }: AssetTableProps) {
                     </div>
                   </div>
                 </td>
-                <td className="px-4 py-3">${asset.price.toLocaleString()}</td>
+                <td className="px-4 py-3">${asset.price.toFixed(5)}</td>
                 <td className="px-4 py-3">
-                  <span className="flex items-center text-[#7CFF6B]">
-                    ↑ {asset.change24h}%
+                  <span className={`flex items-center ${asset.change24h >= 0 ? 'text-[#7CFF6B]' : 'text-red-500'}`}>
+                    {asset.change24h >= 0 ? '↑' : '↓'} {Math.abs(asset.change24h).toFixed(5)}%
                   </span>
                 </td>
-                <td className="px-4 py-3">{(asset.volume / 1000000).toFixed(1)} M</td>
+                <td className="px-4 py-3">{(asset.volume / 1000000).toFixed(5)} M</td>
                 <td className="px-4 py-3">
                   <div className="w-24 h-8">
                     <MiniChart
                       data={asset.chart}
                       color="#7CFF6B"
                       height={32}
-                      showDot={true}
                     />
                   </div>
                 </td>
                 <td className="px-4 py-3">
                   <button className="px-4 py-1.5 bg-[#1a1a1a] rounded-lg text-xs font-medium hover:bg-[#ffffff15]">
-                    TRADE
+                    ANALYZE
                   </button>
                 </td>
               </tr>

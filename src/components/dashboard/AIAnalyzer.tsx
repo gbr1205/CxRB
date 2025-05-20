@@ -34,9 +34,9 @@ export function AIAnalyzer({ assets }: AIAnalyzerProps) {
                 </span>
               </div>
               <p className="text-sm text-gray-400 mb-3">
-                {`${sentiment} momentum with ${Math.abs(asset.change24h).toFixed(2)}% ${
+                {`${sentiment} momentum with ${Math.abs(asset.change24h).toFixed(5)}% ${
                   asset.change24h > 0 ? 'gain' : 'loss'
-                } in 24h. Volume at $${(asset.volume / 1e6).toFixed(1)}M.`}
+                } in 24h. Volume at $${(asset.volume / 1e6).toFixed(5)}M.`}
               </p>
               <div className="text-xs text-gray-500">
                 Updated {new Date().toLocaleTimeString()}

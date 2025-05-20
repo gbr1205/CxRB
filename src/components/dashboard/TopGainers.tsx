@@ -13,7 +13,7 @@ export function TopGainers({ assets }: TopGainersProps) {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-white">Top Gainers & Losers</h1>
-          <p className="text-sm text-gray-500">Track, manage and forecast your assets <span className="ml-2 px-2 py-0.5 bg-[#0f0f0f] rounded-full text-xs">16 Assets</span></p>
+          <p className="text-sm text-gray-500">Track, manage and forecast your assets</p>
         </div>
         <div className="flex gap-2">
           <button className="px-3 py-1.5 bg-[#0f0f0f] rounded-lg text-sm text-gray-400 hover:bg-[#ffffff15] flex items-center gap-1">
@@ -23,10 +23,6 @@ export function TopGainers({ assets }: TopGainersProps) {
           <button className="px-3 py-1.5 bg-[#0f0f0f] rounded-lg text-sm text-gray-400 hover:bg-[#ffffff15] flex items-center gap-1">
             <Diamond size={14} />
             Gainers
-          </button>
-          <button className="px-3 py-1.5 bg-[#0f0f0f] rounded-lg text-sm text-gray-400 hover:bg-[#ffffff15] flex items-center gap-1">
-            <Diamond size={14} />
-            Asc
           </button>
         </div>
       </div>
@@ -57,17 +53,17 @@ export function TopGainers({ assets }: TopGainersProps) {
 
             <div className="mt-4">
               <div className="text-sm text-gray-400">Reward Rate</div>
-              <div className="text-3xl font-semibold mt-1">{asset.rewardRate}%</div>
+              <div className="text-3xl font-semibold mt-1">{asset.rewardRate.toFixed(5)}%</div>
               <div className={`text-sm ${asset.change24h >= 0 ? 'text-[#7CFF6B]' : 'text-red-500'}`}>
                 {asset.change24h >= 0 ? (
                   <span className="flex items-center gap-1">
                     <ArrowUpRight size={16} />
-                    {Math.abs(asset.change24h)}%
+                    {Math.abs(asset.change24h).toFixed(5)}%
                   </span>
                 ) : (
                   <span className="flex items-center gap-1">
                     <ArrowDownRight size={16} />
-                    {Math.abs(asset.change24h)}%
+                    {Math.abs(asset.change24h).toFixed(5)}%
                   </span>
                 )}
               </div>
