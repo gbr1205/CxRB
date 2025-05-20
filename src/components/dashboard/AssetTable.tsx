@@ -167,7 +167,8 @@ export function AssetTable({ assets }: AssetTableProps) {
                   <span className={cn(
                     'flex items-center',
                     asset.unrealizedProfitPercent >= 0.0 ? 'text-[#7CFF6B]' : 'text-red-500'
-                    asset.unrealizedProfitPercent >= 0.0 ? '↑' : '↓'} {Math.abs(asset.unrealizedProfitPercent).toFixed(2)}%
+                 )}>
+                    {asset.unrealizedProfitPercent >= 0.0 ? '↑' : '↓'} {Math.abs(asset.unrealizedProfitPercent).toFixed(2)}%
                   </span>
                 </td>
                 <td className="px-4 py-3">
