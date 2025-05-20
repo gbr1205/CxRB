@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bell, Search, Settings } from 'lucide-react';
+import { Bell, Search, Settings, Upload } from 'lucide-react';
 
 export function TopBar() {
   return (
@@ -12,18 +12,24 @@ export function TopBar() {
         />
         <div>
           <div className="flex items-center gap-2">
-            <span className="font-medium">@leftist_crypto_ow</span>
-            <span className="px-1.5 py-0.5 text-xs bg-gray-800 text-gray-300 rounded">ANALYST</span>
+            <span className="font-medium">Rene Wells</span>
+            <span className="px-1.5 py-0.5 text-xs bg-gray-800 text-gray-300 rounded">PRO</span>
           </div>
-          <span className="text-sm text-gray-500">Personal Portfolio</span>
+          <span className="text-sm text-gray-500">@leftist_crypto_ow</span>
         </div>
       </div>
+
+      <button className="flex items-center gap-2 px-4 py-2 bg-[#7CFF6B] text-black rounded-lg
+        hover:bg-[#6be65c] transition-colors duration-200 font-medium ml-6">
+        <Upload className="w-4 h-4" />
+        Deposit
+      </button>
       
       <div className="flex items-center gap-3 ml-auto">
         <div className="relative">
           <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#7CFF6B] rounded-full text-[10px] 
             flex items-center justify-center text-black font-medium">
-            3
+            8
           </div>
           <button className="p-2 hover:bg-[#ffffff0a] rounded-lg transition-colors duration-200">
             <Bell className="w-5 h-5 text-gray-400" />
@@ -34,7 +40,7 @@ export function TopBar() {
           <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
             type="text"
-            placeholder="Search assets..."
+            placeholder="Search here..."
             className="w-64 h-9 bg-[#ffffff0a] rounded-lg pl-4 pr-9 text-sm text-gray-300 placeholder-gray-500
               focus:outline-none focus:ring-1 focus:ring-[#00FF94]"
           />
