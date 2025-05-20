@@ -65,9 +65,17 @@ export function AssetTable({ assets }: AssetTableProps) {
               <th className="px-4 py-3 font-medium">
                 <button 
                   className="flex items-center gap-1 hover:text-gray-300"
+                  onClick={() => handleSort('avgBuyPrice')}
+                >
+                  Avg Buy <SortIcon columnKey="avgBuyPrice" />
+                </button>
+              </th>
+              <th className="px-4 py-3 font-medium">
+                <button 
+                  className="flex items-center gap-1 hover:text-gray-300"
                   onClick={() => handleSort('currentPrice')}
                 >
-                  Price <SortIcon columnKey="currentPrice" />
+                  Current Price <SortIcon columnKey="currentPrice" />
                 </button>
               </th>
               <th className="px-4 py-3 font-medium">
@@ -135,6 +143,7 @@ export function AssetTable({ assets }: AssetTableProps) {
                   </div>
                 </td>
                 <td className="px-4 py-3">{asset.amount.toFixed(8)}</td>
+                <td className="px-4 py-3">${asset.avgBuyPrice.toFixed(2)}</td>
                 <td className="px-4 py-3">${asset.currentPrice.toFixed(2)}</td>
                 <td className="px-4 py-3">
                   <span className={cn(

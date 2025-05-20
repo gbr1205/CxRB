@@ -32,22 +32,59 @@ export const getTopCoins = async (): Promise<CoinData[]> => {
       x_cg_demo_api_key: COINGECKO_API_KEY
     }
   });
-  return response.data;
+
+  // Mock data for testing
+  const mockData = [
+    {
+      id: 'bitcoin',
+      name: 'Bitcoin',
+      symbol: 'BTC',
+      amount: 0.02755452,
+      avgBuyPrice: 40210.02,
+      purchaseDate: new Date('2024-01-15'),
+      currentPrice: 106592.11,
+      change24h: 1.47,
+      change7d: 4.07,
+      marketCap: 2117323900078.546,
+      totalUsd: 2937.09,
+      unrealizedProfitUsd: 1799.68,
+      unrealizedProfitPercent: 8.96,
+      sentimentScore: 75.5
+    },
+    {
+      id: 'ethereum',
+      name: 'Ethereum',
+      symbol: 'ETH',
+      amount: 0.55794014,
+      avgBuyPrice: 2990.37,
+      purchaseDate: new Date('2024-02-01'),
+      currentPrice: 2547.61,
+      change24h: 4.86,
+      change7d: 3.74,
+      marketCap: 307464962332.2355,
+      totalUsd: 1421.41,
+      unrealizedProfitUsd: 31.96,
+      unrealizedProfitPercent: 2.30,
+      sentimentScore: 68.2
+    }
+  ];
+
+  return mockData;
 };
 
 export const transformCoinData = (coin: CoinData): Asset => ({
   id: coin.id,
   name: coin.name,
   symbol: coin.symbol.toUpperCase(),
-  amount: 0, // This would come from portfolio data
-  avgBuyPrice: 0, // This would come from portfolio data
-  purchaseDate: new Date(), // This would come from portfolio data
+  amount: 0,
+  avgBuyPrice: 0,
+  purchaseDate: new Date(),
   currentPrice: coin.current_price,
   change24h: coin.price_change_percentage_24h,
   change7d: coin.price_change_percentage_7d_in_currency,
   marketCap: coin.market_cap,
-  totalUsd: 0, // This would be calculated from amount * currentPrice
-  unrealizedProfitUsd: 0, // This would be calculated from (currentPrice - avgBuyPrice) * amount
-  unrealizedProfitPercent: 0, // This would be calculated from (unrealizedProfitUsd / (avgBuyPrice * amount)) * 100
-  sentimentScore: Math.random() * 100, // This would come from sentiment analysis
+  totalUsd: 0,
+  unrealizedProfitUsd: 0,
+  unrealizedProfitPercent: 0,
+  sentimentScore: Math.random() * 100
 });
