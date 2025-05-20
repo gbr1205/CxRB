@@ -134,51 +134,71 @@ export function AssetTable({ assets }: AssetTableProps) {
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-[#7CFF6B] flex items-center justify-center text-black font-medium">
-                      {asset.symbol.charAt(0)}
+                      {asset.symbol?.charAt(0) ?? 'N/A'}
                     </div>
                     <div>
-                      <div className="font-medium">{asset.name}</div>
-                      <div className="text-xs text-gray-400">{asset.symbol}</div>
+                      <div className="font-medium">{asset.name ?? 'N/A'}</div>
+                      <div className="text-xs text-gray-400">{asset.symbol ?? 'N/A'}</div>
                     </div>
                   </div>
                 </td>
-                <td className="px-4 py-3">{asset.amount.toFixed(8)}</td>
-                <td className="px-4 py-3">${asset.avgBuyPrice.toFixed(2)}</td>
-                <td className="px-4 py-3">${asset.currentPrice.toFixed(2)}</td>
+                <td className="px-4 py-3">{asset.amount != null ? asset.amount.toFixed(8) : 'N/A'}</td>
+                <td className="px-4 py-3">${asset.avgBuyPrice != null ? asset.avgBuyPrice.toFixed(2) : 'N/A'}</td>
+                <td className="px-4 py-3">${asset.currentPrice != null ? asset.currentPrice.toFixed(2) : 'N/A'}</td>
                 <td className="px-4 py-3">
                   <span className={cn(
                     'flex items-center',
-                    asset.change24h >= 0.0 ? 'text-[#7CFF6B]' : 'text-red-500'
+                    asset.change24h != null ? (asset.change24h >= 0.0 ? 'text-[#7CFF6B]' : 'text-red-500') : 'text-gray-400'
                   )}>
-                    {asset.change24h >= 0.0 ? '↑' : '↓'} {Math.abs(asset.change24h).toFixed(2)}%
+                    {asset.change24h != null ? (
+                      <>
+                        {asset.change24h >= 0.0 ? '↑' : '↓'} {Math.abs(asset.change24h).toFixed(2)}%
+                      </>
+                    ) : 'N/A'}
                   </span>
                 </td>
                 <td className="px-4 py-3">
                   <span className={cn(
                     'flex items-center',
-                    asset.change7d >= 0.0 ? 'text-[#7CFF6B]' : 'text-red-500'
+                    asset.change7d != null ? (asset.change7d >= 0.0 ? 'text-[#7CFF6B]' : 'text-red-500') : 'text-gray-400'
                   )}>
-                    {asset.change7d >= 0.0 ? '↑' : '↓'} {Math.abs(asset.change7d).toFixed(2)}%
+                    {asset.change7d != null ? (
+                      <>
+                        {asset.change7d >= 0.0 ? '↑' : '↓'} {Math.abs(asset.change7d).toFixed(2)}%
+                      </>
+                    ) : 'N/A'}
                   </span>
                 </td>
-                <td className="px-4 py-3">${(asset.marketCap / 1e6).toFixed(2)}M</td>
-                <td className="px-4 py-3">${asset.totalUsd.toFixed(2)}</td>
+                <td className="px-4 py-3">
+                  ${asset.marketCap != null ? (asset.marketCap / 1e6).toFixed(2) : 'N/A'}M
+                </td>
+                <td className="px-4 py-3">
+                  ${asset.totalUsd != null ? asset.totalUsd.toFixed(2) : 'N/A'}
+                </td>
                 <td className="px-4 py-3">
                   <span className={cn(
                     'flex items-center',
-                    asset.unrealizedProfitPercent >= 0.0 ? 'text-[#7CFF6B]' : 'text-red-500'
-                 )}>
-                    {asset.unrealizedProfitPercent >= 0.0 ? '↑' : '↓'} {Math.abs(asset.unrealizedProfitPercent).toFixed(2)}%
+                    asset.unrealizedProfitPercent != null ? 
+                      (asset.unrealizedProfitPercent >= 0.0 ? 'text-[#7CFF6B]' : 'text-red-500') : 
+                      'text-gray-400'
+                  )}>
+                    {asset.unrealizedProfitPercent != null ? (
+                      <>
+                        {asset.unrealizedProfitPercent >= 0.0 ? '↑' : '↓'} {Math.abs(asset.unrealizedProfitPercent).toFixed(2)}%
+                      </>
+                    ) : 'N/A'}
                   </span>
                 </td>
                 <td className="px-4 py-3">
                   <div className={cn(
                     'px-2 py-1 rounded text-xs inline-block',
-                    asset.sentimentScore >= 70 ? 'bg-green-500/20 text-green-500' :
-                    asset.sentimentScore >= 40 ? 'bg-yellow-500/20 text-yellow-500' :
-                    'bg-red-500/20 text-red-500'
+                    asset.sentimentScore != null ? (
+                      asset.sentimentScore >= 70 ? 'bg-green-500/20 text-green-500' :
+                      asset.sentimentScore >= 40 ? 'bg-yellow-500/20 text-yellow-500' :
+                      'bg-red-500/20 text-red-500'
+                    ) : 'bg-gray-500/20 text-gray-500'
                   )}>
-                    {asset.sentimentScore.toFixed(2)}
+                    {asset.sentimentScore != null ? asset.sentimentScore.toFixed(2) : 'N/A'}
                   </div>
                 </td>
               </tr>
