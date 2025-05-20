@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpRight, Diamond, ArrowDownRight } from 'lucide-react';
+import { Diamond, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import { Asset } from '../../types';
 import { MiniChart } from '../charts/MiniChart';
 
@@ -32,56 +32,40 @@ export function TopGainers({ assets }: TopGainersProps) {
           <div key={asset.id} className="p-4 rounded-xl bg-[#0f0f0f] flex flex-col h-[280px]">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className={`w-8 h-8 rounded-full ${
-                  asset.symbol === 'BTC' ? 'bg-[#7CFF6B]' :
-                  asset.symbol === 'USDT' ? 'bg-red-500' :
-                  'bg-purple-500'
-                } flex items-center justify-center ${
-                  asset.symbol === 'BTC' ? 'text-black' : 'text-white'
-                } font-medium`}>
-                  {asset.symbol === 'BTC' ? '₿' :
-                   asset.symbol === 'USDT' ? 'T' :
-                   'Ξ'}
+                <div className="w-8 h-8 rounded-full bg-[#7CFF6B] flex items-center justify-center text-black font-medium">
+                  {asset.symbol.charAt(0)}
                 </div>
                 <div>
                   <div className="font-medium">{asset.name}</div>
-                  <div className="text-sm text-gray-400">True Chart</div>
+                  <div className="text-sm text-gray-400">Price Chart</div>
                 </div>
               </div>
               <ArrowUpRight size={16} className="text-gray-400" />
             </div>
 
             <div className="mt-4">
-              <div className="text-sm text-gray-400">Reward Rate</div>
-              <div className="text-3xl font-semibold mt-1">{asset.rewardRate.toFixed(5)}%</div>
+              <div className="text-sm text-gray-400">Current Price</div>
+              <div className="text-3xl font-semibold mt-1">${asset.currentPrice.toFixed(2)}</div>
               <div className={`text-sm ${asset.change24h >= 0 ? 'text-[#7CFF6B]' : 'text-red-500'}`}>
                 {asset.change24h >= 0 ? (
                   <span className="flex items-center gap-1">
                     <ArrowUpRight size={16} />
-                    {Math.abs(asset.change24h).toFixed(5)}%
+                    {Math.abs(asset.change24h).toFixed(2)}%
                   </span>
                 ) : (
                   <span className="flex items-center gap-1">
                     <ArrowDownRight size={16} />
-                    {Math.abs(asset.change24h).toFixed(5)}%
+                    {Math.abs(asset.change24h).toFixed(2)}%
                   </span>
                 )}
               </div>
             </div>
 
             <div className="flex-1 rounded-lg overflow-hidden relative mt-4">
-              <div className={`absolute inset-0 ${
-                asset.symbol === 'BTC' ? 'bg-[#7CFF6B]' :
-                asset.symbol === 'USDT' ? 'bg-red-500' :
-                'bg-purple-500'
-              } opacity-5`} />
+              <div className="absolute inset-0 bg-[#7CFF6B] opacity-5" />
               <MiniChart
-                data={asset.chart}
-                color={
-                  asset.symbol === 'BTC' ? '#7CFF6B' :
-                  asset.symbol === 'USDT' ? '#ff4d4d' :
-                  '#a855f7'
-                }
+                data={[0, 1, 2, 3, 4, 5]} // Replace with actual price history data
+                color="#7CFF6B"
                 height={100}
               />
             </div>
