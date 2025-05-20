@@ -156,9 +156,9 @@ export function AssetTable({ assets }: AssetTableProps) {
                 <td className="px-4 py-3">
                   <span className={cn(
                     'flex items-center',
-                    asset.change7d >= 0 ? 'text-[#7CFF6B]' : 'text-red-500'
+                    asset.change7d >= 0% ? 'text-[#7CFF6B]' : 'text-red-500'
                   )}>
-                    {asset.change7d >= 0 ? '↑' : '↓'} {Math.abs(asset.change7d).toFixed(2)}%
+                    {asset.change7d >= 0% ? '↑' : '↓'} {Math.abs(asset.change7d).toFixed(2)}%
                   </span>
                 </td>
                 <td className="px-4 py-3">${(asset.marketCap / 1e6).toFixed(2)}M</td>
@@ -166,9 +166,9 @@ export function AssetTable({ assets }: AssetTableProps) {
                 <td className="px-4 py-3">
                   <span className={cn(
                     'flex items-center',
-                    asset.unrealizedProfitPercent >= 0 ? 'text-[#7CFF6B]' : 'text-red-500'
+                    asset.unrealizedProfitPercent >= 0% ? 'text-[#7CFF6B]' : 'text-red-500'
                   )}>
-                    {asset.unrealizedProfitPercent >=  0 ? '↑' : '↓'} {Math.abs(asset.unrealizedProfitPercent).toFixed(2)}%
+                    {asset.unrealizedProfitPercent >=  0% ? '↑' : '↓'} {Math.abs(asset.unrealizedProfitPercent).toFixed(2)}%
                   </span>
                 </td>
                 <td className="px-4 py-3">
